@@ -1,0 +1,44 @@
+Where OMP Fits in the DCT Compression Pipeline
+Transform Original Signal/Image to the DCT Domain:
+
+Convert the original signal or image from the spatial domain to the DCT domain using the Discrete Cosine Transform (DCT).
+This transformation produces a set of DCT coefficients, representing the image in terms of its frequency components.
+Each 8x8 image block (for JPEG) or the entire image (for a different compression pipeline) will have its own DCT coefficient matrix.
+Compression in the DCT Domain:
+
+Typically, quantization is applied to the DCT coefficients, reducing the precision of less significant (high-frequency) coefficients.
+In the context of compressed sensing, randomized sampling or linear measurements might be taken on the DCT coefficients to create a lower-dimensional measurement vector.
+This step results in a compressed representation of the original image, represented by the measurement vector (
+𝑦
+y) and the sensing matrix (
+Φ
+Φ).
+Apply OMP for Reconstruction:
+
+After you obtain the compressed measurements (which might be either the quantized DCT coefficients or a lower-dimensional vector 
+𝑦
+y), OMP is used to reconstruct the original sparse signal.
+
+The input to OMP will be:
+
+Measurement Vector (
+𝑦
+y): This vector contains the compressed data.
+Sensing Matrix (
+Φ
+Φ): Represents the transformation matrix used to generate 
+𝑦
+y. In the context of DCT, 
+Φ
+Φ could be the DCT basis or a combination of DCT and other transformations.
+Sparsity Level (
+𝑘
+k): The expected number of non-zero coefficients in the original sparse representation (or a stopping criterion based on residual).
+OMP iteratively reconstructs the sparse signal by selecting the most significant DCT basis vectors (columns of 
+Φ
+Φ) that best match the measurement vector and updating the residual.
+
+Reconstruct the Image in the Spatial Domain using Inverse DCT:
+
+Once OMP has reconstructed the sparse representation of the signal in the DCT domain, the Inverse Discrete Cosine Transform (IDCT) is applied to convert the DCT coefficients back to the spatial domain.
+The result is the reconstructed image in the spatial domain, which closely approximates the original uncompressed image.
